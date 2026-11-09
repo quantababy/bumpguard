@@ -33,6 +33,11 @@
 - [x] Created comprehensive rehearsal interview guide in `docs/INTERVIEW_GUIDE.md`
 - [x] Embedded empirical evaluation tables with Wilson confidence intervals in `README.md`
 
+### Packaging & Distribution
+- [x] Created `pyproject.toml` supporting standard PEP 621 installation (`pip install -e .`)
+- [x] Configured CLI entry point `bumpguard = "bumpguard.cli:main"`
+- [x] Verified local installation and package metadata
+
 ---
 
 ## Batch History (v1 & MVP Phases)
