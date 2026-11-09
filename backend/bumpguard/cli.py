@@ -28,14 +28,20 @@ def read_lockfile_from_ref_or_file(ref_or_path: str, filename: str = "package-lo
     if p.is_dir() and (p / filename).is_file():
         return (p / filename).read_text(encoding="utf-8")
 
-    # Try git show <ref>:<filename>
+    # If it looks like a file path (has extension or path separator) and is missing on disk
+    if p.suffix in (".json", ".yaml", ".yml", ".lock") or "/" in ref_or_path or "\\" in ref_or_path:
+        raise FileNotFoundError(
+            f"File '{ref_or_path}' was not found. Please verify the file path."
+        )
+
+    # Otherwise, try git show <ref>:<filename>
     try:
         cmd = ["git", "show", f"{ref_or_path}:{filename}"]
         result = subprocess.run(cmd, capture_output=True, text=True, check=True)
         return result.stdout
-    except Exception as e:
+    except Exception:
         raise FileNotFoundError(
-            f"Could not read {filename} from path or git ref '{ref_or_path}': {e}"
+            f"Git reference or commit '{ref_or_path}' could not be resolved with file '{filename}'."
         )
 
 

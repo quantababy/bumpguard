@@ -19,19 +19,36 @@
 
 ## Quickstart
 
-### 1. Run the CLI
+### 1. Run the CLI Diff Scanner
 ```bash
-# Scan between two Git commits or branches
-python -m bumpguard.cli diff --base origin/main --head HEAD --fail-on high
+# From the backend directory:
+cd backend
 
-# Or compare two package-lock.json files directly
-python -m bumpguard.cli diff --base ./old-lock.json --head ./new-lock.json --format markdown
+# Compare using the included sample lockfiles:
+python -m bumpguard.cli diff --base ../samples/old-lock.json --head ../samples/new-lock.json --format markdown
+
+# Or scan between two Git commits/branches:
+python -m bumpguard.cli diff --base origin/main --head HEAD --fail-on high
 ```
 
-### 2. Launch the Integrated Visualizer
+### 2. Launch the Integrated Visualizer Web UI
 ```bash
+# From the backend directory:
+cd backend
 python -m bumpguard.cli serve --port 8080
-# Open http://127.0.0.1:8080 in your browser to inspect scans visually
+
+# Open http://127.0.0.1:8080 in your browser
+# Click "Load Demo Scenario" and "Run Security Scan" to test interactively!
+```
+
+### 3. Run the Test Suite
+```bash
+# From the project root:
+python run_tests.py
+
+# Or from the backend directory:
+cd backend
+python -m unittest discover -s tests -v
 ```
 
 ### 3. GitHub Action Setup

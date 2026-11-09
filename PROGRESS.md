@@ -64,7 +64,9 @@
 - [x] Created Composite GitHub Action in `action/action.yml`
 - [x] Authored `SECURITY.md` detailing static analysis non-execution invariants and vulnerability disclosure
 - [x] Authored comprehensive `README.md` with pipeline overview, quickstart CLI commands, and explicit limitations
-- [x] Conducted end-to-end CLI diff verification on sample lockfiles
+- [x] Added sample lockfiles in `samples/` (`old-lock.json`, `new-lock.json`) for immediate evaluation
+- [x] Added root-level test runner `run_tests.py` (`python run_tests.py`)
+- [x] Improved CLI error reporting when file paths are missing on disk
 - [x] Complete test suite passing: 25/25 automated unit & integration tests
 
 ---
