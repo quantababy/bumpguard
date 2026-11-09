@@ -1,5 +1,9 @@
 # bumpguard
 
+[![CI](https://github.com/quantababy/bumpguard/actions/workflows/ci.yml/badge.svg)](https://github.com/quantababy/bumpguard/actions/workflows/ci.yml)
+[![License: MIT](https://img.shields.io/badge/License-MIT-blue.svg)](LICENSE)
+[![Python: 3.10+](https://img.shields.io/badge/python-3.10+-blue.svg)](https://www.python.org/)
+
 > Compare the old and new release of every dependency a pull request changes, and flag only what is new and risky.
 
 `bumpguard` is a fast, safe dependency update risk scanner that inspects package updates in pull requests. By comparing the behavior between old and new releases, unchanged baseline behavior is ignored, keeping noise and false alarms to an absolute minimum.
