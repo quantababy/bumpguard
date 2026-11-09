@@ -1,7 +1,7 @@
 # PROGRESS.md — Bumpguard Progress Tracker
 
 ## Status Summary
-- **Current Phase**: Batch 4 Complete — Code Fact Extraction, Diff Engine & Risk Scorer
+- **Current Phase**: Batch 5 Complete — CLI, Markdown / JSON Reporters, and Local API Server
 - **Overall Status**: In Progress (MVP Phase)
 
 ---
@@ -45,11 +45,18 @@
 - [x] Implemented v0 heuristic scorer in `bumpguard.score.scorer` with rule weights and critical overrides
 - [x] Authored and verified unit test suites (`tests/test_analyzer.py`, `tests/test_scorer.py`) with 17 total passing tests
 
+### Batch 5: CLI, Reporters, and Local API Server
+- [x] Implemented Markdown PR table generator matching Section 7.5 format (`bumpguard.report.reporter`)
+- [x] Implemented JSON report serialization (`bumpguard.report.reporter`)
+- [x] Implemented embedded HTTP server in `bumpguard.server` with `/api/scan`, `/api/health`, and static asset serving
+- [x] Implemented CLI entry point in `bumpguard.cli` with `diff` and `serve` commands
+- [x] Authored and verified unit test suites (`tests/test_report.py`, `tests/test_cli.py`) with 22 total passing tests
+
 ---
 
 ## Current Task
-- **Active Task**: Batch 4 complete.
-- **Next Task (Batch 5)**: CLI, Markdown / JSON Reporters, and Local API Server.
+- **Active Task**: Batch 5 complete.
+- **Next Task (Batch 6)**: Frontend Web Dashboard in `frontend/` & Integration with `bumpguard serve`.
 
 ---
 
