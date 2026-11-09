@@ -5,6 +5,7 @@ from __future__ import annotations
 from typing import List, Optional
 
 from bumpguard.analyze.diff_engine import compare_package_archives
+from bumpguard.config import BumpguardConfig
 from bumpguard.core.types import Finding, PackageRef
 from bumpguard.extract.safe_extractor import SafeExtractor
 from bumpguard.registry.client import NpmRegistryClient
@@ -15,6 +16,7 @@ def scan_package_update(
     pkg: PackageRef,
     client: Optional[NpmRegistryClient] = None,
     extractor: Optional[SafeExtractor] = None,
+    config: Optional[BumpguardConfig] = None,
 ) -> ScoredPackage:
     """Execute complete pipeline for a changed or added package:
     1. Resolve registry metadata and evaluate metadata rules.
@@ -60,5 +62,9 @@ def scan_package_update(
         except Exception:
             pass
 
-    # Step 5: Score aggregated findings
+    # Step 5: Filter findings using expiring ignore rules if config is active
+    if config:
+        findings = config.filter_findings(pkg.name, findings)
+
+    # Step 6: Score aggregated findings
     return calculate_package_risk(pkg, findings)

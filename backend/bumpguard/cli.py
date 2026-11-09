@@ -9,13 +9,14 @@ import sys
 from pathlib import Path
 from typing import List, Optional
 
+from bumpguard.config import BumpguardConfig, load_config
 from bumpguard.core.types import Ecosystem, PackageRef, Severity
 from bumpguard.engine import scan_package_update
 from bumpguard.extract.safe_extractor import SafeExtractor
 from bumpguard.lockfile.diff import diff_lockfiles
 from bumpguard.lockfile.parser import parse_package_lock
 from bumpguard.registry.client import NpmRegistryClient
-from bumpguard.report.reporter import format_json_report, format_markdown_report
+from bumpguard.report import format_json_report, format_markdown_report, format_sarif_report
 from bumpguard.score.scorer import ScoredPackage, calculate_package_risk
 from bumpguard.server import run_server
 
@@ -65,23 +66,33 @@ def cmd_diff(args: argparse.Namespace) -> int:
     base_entries = parse_package_lock(base_content)
     head_entries = parse_package_lock(head_content)
 
+    config = load_config(args.config)
     changed, removed = diff_lockfiles(base_entries, head_entries, ignore_dev=args.ignore_dev)
     client = NpmRegistryClient()
     extractor = SafeExtractor()
 
     scored_packages: List[ScoredPackage] = []
     for pkg in changed:
-        scored = scan_package_update(pkg, client=client, extractor=extractor)
+        scored = scan_package_update(pkg, client=client, extractor=extractor, config=config)
         scored_packages.append(scored)
 
     # Format output
     if args.format == "json":
         print(format_json_report(scored_packages))
+    elif args.format == "sarif":
+        print(format_sarif_report(scored_packages))
     else:
         print(format_markdown_report(scored_packages))
 
+    if args.sarif_file:
+        try:
+            Path(args.sarif_file).write_text(format_sarif_report(scored_packages), encoding="utf-8")
+        except Exception as e:
+            sys.stderr.write(f"Warning: could not write SARIF file: {e}\n")
+
     # Evaluate fail-on threshold
-    fail_threshold = Severity[args.fail_on.capitalize()]
+    fail_on_choice = args.fail_on or config.fail_on.value
+    fail_threshold = Severity[fail_on_choice.capitalize()]
     exceeded = [
         p for p in scored_packages
         if p.risk_level.meets_threshold(fail_threshold)
@@ -122,10 +133,12 @@ def build_parser() -> argparse.ArgumentParser:
     )
     diff_p.add_argument(
         "--format",
-        choices=["markdown", "json"],
+        choices=["markdown", "json", "sarif"],
         default="markdown",
         help="Report output format (default: markdown)",
     )
+    diff_p.add_argument("--sarif-file", help="Optional path to output SARIF report file")
+    diff_p.add_argument("--config", help="Path to custom bumpguard.toml configuration file")
     diff_p.add_argument("--ignore-dev", action="store_true", help="Ignore devDependencies")
 
     # Subcommand: serve

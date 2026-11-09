@@ -1,12 +1,34 @@
 # PROGRESS.md — Bumpguard Progress Tracker
 
 ## Status Summary
-- **Current Phase**: MVP Complete (Batches 1–7 Finished & Verified)
-- **Overall Status**: Complete & Passing (25/25 automated tests pass)
+- **Current Phase**: v1 Scope Complete & Verified (Batches 8–10 Finished)
+- **Overall Status**: Complete & Passing (31/31 automated tests pass)
 
 ---
 
-## Batch History
+## v1 Milestone Checklist
+
+### Batch 8: Configuration & Expiring Ignore Rules (`bumpguard.toml`)
+- [x] Implemented `bumpguard.toml` parser and policy controls in `bumpguard.config`
+- [x] Implemented expiring ignore rules (`[[ignore]] package, rule, expires, reason`)
+- [x] Verified expired ignore rules force security review and are not silently skipped
+- [x] Authored unit tests in `tests/test_config.py`
+
+### Batch 9: SARIF v2.1.0 Output Generation (`results.sarif`)
+- [x] Implemented standard SARIF v2.1.0 generator in `bumpguard.report.sarif`
+- [x] Mapped rule definitions, locations, and severities (`error`, `warning`, `note`) for GitHub Code Scanning
+- [x] Added `--format sarif` and `--sarif-file` CLI flags
+- [x] Authored unit tests in `tests/test_sarif.py`
+
+### Batch 10: PyPI Ecosystem Support
+- [x] Implemented safe in-memory `.whl` (ZIP) extractor with path traversal protections in `bumpguard.extract.wheel_extractor`
+- [x] Implemented Python fact patterns and `.pth` persistence hook detection (`BG-EXEC-003`) in `bumpguard.analyze.python_analyzer`
+- [x] Implemented `requirements.txt` dependency parser in `bumpguard.lockfile.pypi_parser`
+- [x] Authored unit tests in `tests/test_pypi.py`
+
+---
+
+## Batch History (MVP Phase)
 
 ### Batch 1: Project Setup & Control Documents
 - [x] Initialized project root at `bumpguard/`
