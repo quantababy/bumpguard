@@ -1,7 +1,7 @@
 # PROGRESS.md — Bumpguard Progress Tracker
 
 ## Status Summary
-- **Current Phase**: Batch 2 Complete — Core Types & Safe In-Memory Extractor
+- **Current Phase**: Batch 3 Complete — Lockfile Parsing, Diff Engine & Registry Client
 - **Overall Status**: In Progress (MVP Phase)
 
 ---
@@ -22,11 +22,20 @@
 - [x] Enforced decompression bomb mitigations (size, file count, expansion ratio limits)
 - [x] Authored and verified unit test suites (`tests/test_core.py`, `tests/test_extract.py`) with 8 passing tests
 
+### Batch 3: Lockfile Parsing, Diff Engine & Registry Client
+- [x] Implemented `parse_package_lock` supporting lockfileVersion 1, 2, and 3 (`bumpguard.lockfile.parser`)
+- [x] Implemented lockfile version diffing logic (`bumpguard.lockfile.diff`)
+- [x] Implemented `NpmRegistryClient` for fetching packument metadata and checking:
+  - `BG-META-001` (publisher / maintainer change)
+  - `BG-META-003` (fresh release < 72h)
+  - `BG-POL-003` (missing integrity)
+- [x] Authored and verified unit test suites (`tests/test_lockfile.py`, `tests/test_registry.py`) with 11 total passing tests
+
 ---
 
 ## Current Task
-- **Active Task**: Batch 2 complete.
-- **Next Task (Batch 3)**: Lockfile Parser & Diff Engine (`package-lock.json` parsing and version diffing) + Registry Client.
+- **Active Task**: Batch 3 complete.
+- **Next Task (Batch 4)**: Code Fact Extraction (AST/Pattern Analyzer) & Fact-Set Difference Scorer.
 
 ---
 
