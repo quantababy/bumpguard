@@ -1,8 +1,8 @@
 # PROGRESS.md — Bumpguard Progress Tracker
 
 ## Status Summary
-- **Current Phase**: Batch 6 Complete — Frontend Web Visualizer & Integration
-- **Overall Status**: In Progress (MVP Phase)
+- **Current Phase**: MVP Complete (Batches 1–7 Finished & Verified)
+- **Overall Status**: Complete & Passing (25/25 automated tests pass)
 
 ---
 
@@ -60,11 +60,18 @@
 - [x] Seamless integration: `bumpguard serve` serves the frontend while running `/api/scan` backend
 - [x] Added automated server integration test suite (`tests/test_server.py`) with 25 total passing tests
 
+### Batch 7: Action, Documentation & End-to-End Verification
+- [x] Created Composite GitHub Action in `action/action.yml`
+- [x] Authored `SECURITY.md` detailing static analysis non-execution invariants and vulnerability disclosure
+- [x] Authored comprehensive `README.md` with pipeline overview, quickstart CLI commands, and explicit limitations
+- [x] Conducted end-to-end CLI diff verification on sample lockfiles
+- [x] Complete test suite passing: 25/25 automated unit & integration tests
+
 ---
 
 ## Current Task
-- **Active Task**: Batch 6 complete.
-- **Next Task (Batch 7 — Final Batch)**: Composite GitHub Action (`action/action.yml`), project documentation (`README.md`, `SECURITY.md`), and end-to-end verification.
+- **Active Task**: All MVP Batches complete. Project ready for production use, pull request scanning, or local web inspection.
+- **Future Enhancements (v1)**: PyPI support, SARIF format, and expiring ignore rules.
 
 ---
 
