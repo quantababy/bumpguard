@@ -1,0 +1,514 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <title>Bumpguard — Complete Technical Interview Question Bank & Architectural Guide</title>
+  <style>
+    @page {
+      size: A4;
+      margin: 1.8cm 1.5cm 1.8cm 1.5cm;
+      @bottom-center {
+        content: "Page " counter(page) " of " counter(pages);
+        font-size: 9pt;
+        color: #64748b;
+      }
+    }
+    
+    * {
+      box-sizing: border-box;
+      margin: 0;
+      padding: 0;
+    }
+    
+    body {
+      font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica, Arial, sans-serif;
+      color: #0f172a;
+      background-color: #ffffff;
+      line-height: 1.5;
+      font-size: 10pt;
+    }
+
+    .header {
+      border-bottom: 2px solid #0284c7;
+      padding-bottom: 14px;
+      margin-bottom: 24px;
+    }
+
+    .badge-bar {
+      display: flex;
+      gap: 8px;
+      margin-bottom: 8px;
+    }
+
+    .badge {
+      display: inline-block;
+      font-size: 8pt;
+      font-weight: 700;
+      text-transform: uppercase;
+      padding: 3px 8px;
+      border-radius: 4px;
+      background-color: #e0f2fe;
+      color: #0369a1;
+      border: 1px solid #bae6fd;
+    }
+
+    h1 {
+      font-size: 20pt;
+      font-weight: 800;
+      color: #0f172a;
+      letter-spacing: -0.5px;
+      margin-bottom: 4px;
+    }
+
+    .subtitle {
+      font-size: 10.5pt;
+      color: #475569;
+    }
+
+    .meta-grid {
+      display: grid;
+      grid-template-columns: repeat(3, 1fr);
+      gap: 12px;
+      background-color: #f8fafc;
+      border: 1px solid #e2e8f0;
+      border-radius: 8px;
+      padding: 12px;
+      margin-bottom: 24px;
+      font-size: 9pt;
+    }
+
+    .meta-item strong {
+      color: #1e293b;
+      display: block;
+      font-size: 8pt;
+      text-transform: uppercase;
+      margin-bottom: 2px;
+    }
+
+    .category-section {
+      margin-bottom: 24px;
+    }
+
+    .category-title {
+      font-size: 13pt;
+      font-weight: 800;
+      color: #0369a1;
+      border-bottom: 1px solid #cbd5e1;
+      padding-bottom: 4px;
+      margin-bottom: 16px;
+      text-transform: uppercase;
+      letter-spacing: 0.5px;
+    }
+
+    .q-card {
+      border: 1px solid #e2e8f0;
+      border-radius: 8px;
+      padding: 14px 16px;
+      margin-bottom: 16px;
+      page-break-inside: avoid;
+      background-color: #ffffff;
+      box-shadow: 0 1px 3px rgba(0,0,0,0.03);
+    }
+
+    .q-header {
+      display: flex;
+      justify-content: space-between;
+      align-items: baseline;
+      margin-bottom: 8px;
+    }
+
+    .q-number {
+      font-weight: 800;
+      color: #0284c7;
+      font-size: 11pt;
+      margin-right: 6px;
+    }
+
+    .q-title {
+      font-weight: 700;
+      font-size: 11pt;
+      color: #0f172a;
+      flex-grow: 1;
+    }
+
+    .q-tag {
+      font-size: 7.5pt;
+      font-weight: 600;
+      background-color: #f1f5f9;
+      color: #475569;
+      padding: 2px 6px;
+      border-radius: 4px;
+      border: 1px solid #cbd5e1;
+    }
+
+    .talking-points {
+      background-color: #f0fdf4;
+      border-left: 3px solid #16a34a;
+      padding: 8px 12px;
+      border-radius: 0 6px 6px 0;
+      margin: 8px 0;
+      font-size: 9.5pt;
+      color: #14532d;
+    }
+
+    .talking-points strong {
+      color: #166534;
+      display: block;
+      margin-bottom: 2px;
+      font-size: 8.5pt;
+      text-transform: uppercase;
+      letter-spacing: 0.5px;
+    }
+
+    .deep-dive {
+      color: #334155;
+      font-size: 9pt;
+      margin-top: 8px;
+    }
+
+    .deep-dive strong {
+      color: #0f172a;
+    }
+
+    .keywords {
+      margin-top: 8px;
+      font-size: 8.5pt;
+      color: #64748b;
+    }
+
+    .keywords span {
+      background-color: #f8fafc;
+      border: 1px solid #e2e8f0;
+      padding: 1px 5px;
+      border-radius: 3px;
+      font-family: monospace;
+      color: #0f172a;
+    }
+
+    .table-container {
+      margin: 12px 0;
+    }
+
+    table {
+      width: 100%;
+      border-collapse: collapse;
+      font-size: 8.5pt;
+    }
+
+    th, td {
+      border: 1px solid #cbd5e1;
+      padding: 6px 8px;
+      text-align: left;
+    }
+
+    th {
+      background-color: #f1f5f9;
+      color: #1e293b;
+      font-weight: 700;
+    }
+  </style>
+</head>
+<body>
+
+  <div class="header">
+    <div class="badge-bar">
+      <span class="badge">Technical Interview Master Guide</span>
+      <span class="badge">Systems Engineering & ML</span>
+      <span class="badge">Supply-Chain Security</span>
+    </div>
+    <h1>Bumpguard: Interview Rehearsal Question Bank</h1>
+    <p class="subtitle">Complete technical defense covering Diff-First Architecture, Base-Rate Statistics, Safe In-Memory AST Extraction, and Calibrated Machine Learning.</p>
+  </div>
+
+  <div class="meta-grid">
+    <div class="meta-item">
+      <strong>Candidate Profile</strong>
+      Fourth-Year Computer Science / Software Engineering Student
+    </div>
+    <div class="meta-item">
+      <strong>Target Roles</strong>
+      Backend Engineer, Systems Programmer, Security/ML Engineer
+    </div>
+    <div class="meta-item">
+      <strong>Live Evidence Repo</strong>
+      35 Automated Tests Passing &bull; 0.0% False Alarms on Benign
+    </div>
+  </div>
+
+  <!-- SECTION 1 -->
+  <div class="category-section">
+    <div class="category-title">Part 1: Architecture & Diff-First Design Principles</div>
+
+    <!-- Q1 -->
+    <div class="q-card">
+      <div class="q-header">
+        <span class="q-number">Q1.</span>
+        <span class="q-title">Why compare releases instead of scanning whole packages in isolation?</span>
+        <span class="q-tag">Core Architecture</span>
+      </div>
+      <div class="talking-points">
+        <strong>Direct Answer to Give:</strong>
+        "Scanning entire packages produces massive false-alarm fatigue because legitimate libraries spawn processes and make network calls by design. Bumpguard compares releases so that unchanged baseline behavior is ignored, flagging only what is genuinely new and risky in that update."
+      </div>
+      <div class="deep-dive">
+        <strong>Technical Elaboration:</strong>
+        A CLI library like <code>esbuild</code> or <code>rimraf</code> inherently spawns subprocesses or interacts with the filesystem. If you scan the package in isolation, it will flag critical findings on every version. By taking the fact-set difference <code>added = facts(new) - facts(old)</code>, an established package continuing its existing behavior is completely silent. Only anomalous new capabilities (e.g., a left-pad utility introducing network requests on import) trigger review.
+      </div>
+      <div class="keywords">
+        Keywords: <span>diff-first</span> <span>alert fatigue</span> <span>fact-set difference</span> <span>baseline subtraction</span>
+      </div>
+    </div>
+
+    <!-- Q2 -->
+    <div class="q-card">
+      <div class="q-header">
+        <span class="q-number">Q2.</span>
+        <span class="q-title">What is the Fact-Set Difference engine, and how does keying prevent refactor false alarms?</span>
+        <span class="q-tag">Data Structures / AST</span>
+      </div>
+      <div class="talking-points">
+        <strong>Direct Answer to Give:</strong>
+        "We key code facts by a 3-tuple of (kind, api, context) at the package level rather than by file path. If a developer refactors existing code between files, the fact hash remains identical, preventing cosmetic refactors from appearing as new attacks."
+      </div>
+      <div class="deep-dive">
+        <strong>Technical Elaboration:</strong>
+        If a package moves <code>child_process.exec</code> from <code>lib/worker.js</code> to <code>lib/runner.js</code>, a file-level diff would report that <code>worker.js</code> lost a call and <code>runner.js</code> gained one. Because facts are keyed by <code>Fact(kind=Exec, api='child_process', context=Other)</code>, set subtraction <code>new_facts - old_facts</code> yields an empty set. Furthermore, unchanged files are identified via SHA-256 and skipped instantly during extraction.
+      </div>
+      <div class="keywords">
+        Keywords: <span>(kind, api, context)</span> <span>hashable Fact</span> <span>file-hash skip</span> <span>refactor invariance</span>
+      </div>
+    </div>
+
+    <!-- Q3 -->
+    <div class="q-card">
+      <div class="q-header">
+        <span class="q-number">Q3.</span>
+        <span class="q-title">How do you distinguish between install-time, import-time, and run-time execution?</span>
+        <span class="q-tag">Threat Model</span>
+      </div>
+      <div class="talking-points">
+        <strong>Direct Answer to Give:</strong>
+        "We contextualize facts by where they run: Install context comes from lifecycle scripts and binding.gyp; Import context covers top-level code executed when requiring entry points; Other context covers lazy functions called during normal execution."
+      </div>
+      <div class="deep-dive">
+        <strong>Technical Elaboration:</strong>
+        In 2026, modern package managers (npm 12, pnpm 11) disable postinstall scripts by default. Attackers adapt by placing payloads at the top-level of entry files (<code>main</code>, <code>exports</code>) to execute silently when a developer runs <code>import</code>, or via <code>binding.gyp</code> to trigger implicit compilation. Our AST parser tracks entry points declared in <code>package.json</code> and tags top-level statements as <code>Context.Import</code>, multiplying risk weights accordingly.
+      </div>
+      <div class="keywords">
+        Keywords: <span>Context.Install</span> <span>Context.Import</span> <span>binding.gyp</span> <span>top-level side effects</span>
+      </div>
+    </div>
+  </div>
+
+  <!-- SECTION 2 -->
+  <div class="category-section">
+    <div class="category-title">Part 2: The Base-Rate Problem, ML Calibration & Uncertainty</div>
+
+    <!-- Q4 -->
+    <div class="q-card">
+      <div class="q-header">
+        <span class="q-number">Q4.</span>
+        <span class="q-title">What is the Base-Rate Fallacy in dependency update security?</span>
+        <span class="q-tag">Statistics & Mathematics</span>
+      </div>
+      <div class="talking-points">
+        <strong>Direct Answer to Give:</strong>
+        "Because real malware updates are extraordinarily rare (around 0.1% or 1 in 1,000 updates), even a 99% accurate detector produces over 90% false alarms. You cannot pick thresholds based on accuracy; you must choose them from an explicit false-alarm budget."
+      </div>
+      <div class="deep-dive">
+        <strong>Technical Elaboration:</strong>
+        According to Bayes' Theorem: <code>PPV = (TPR * pi) / (TPR * pi + FPR * (1 - pi))</code>.
+        <div class="table-container">
+          <table>
+            <thead>
+              <tr><th>Assumed Prevalence (&pi;)</th><th>PPV at FPR = 1.0%</th><th>PPV at FPR = 0.1% (Bumpguard Budget)</th><th>PPV at FPR = 0.01%</th></tr>
+            </thead>
+            <tbody>
+              <tr><td>1e-2 (1 in 100)</td><td>47.6%</td><td>90.1%</td><td>98.9%</td></tr>
+              <tr><td>1e-3 (1 in 1,000)</td><td>8.3%</td><td>47.4%</td><td>90.0%</td></tr>
+              <tr><td>1e-4 (1 in 10,000)</td><td>0.9%</td><td>8.3%</td><td>47.4%</td></tr>
+            </tbody>
+          </table>
+        </div>
+        At a low base-rate (0.1%), an FPR of 1% yields an abysmal 8.3% PPV (over 11 false alarms for every 1 true attack). By enforcing an FPR budget of 0.1% or lower, PPV remains trustworthy.
+      </div>
+      <div class="keywords">
+        Keywords: <span>Bayes theorem</span> <span>positive predictive value</span> <span>alert budget</span> <span>prevalence</span>
+      </div>
+    </div>
+
+    <!-- Q5 -->
+    <div class="q-card">
+      <div class="q-header">
+        <span class="q-number">Q5.</span>
+        <span class="q-title">How does Bumpguard calibrate its scoring model and generate explainable reason codes?</span>
+        <span class="q-tag">Machine Learning</span>
+      </div>
+      <div class="talking-points">
+        <strong>Direct Answer to Give:</strong>
+        "We train a regularized logistic regression model and fit Platt scaling on held-out clusters so the score behaves as a true probability. Reason codes are generated by ranking the largest individual feature contributions (weight * value)."
+      </div>
+      <div class="deep-dive">
+        <strong>Technical Elaboration:</strong>
+        Heuristic rule sums suffer from arbitrary scale distortions. Logistic regression maps feature vectors (rule presence, counts, context multipliers, publisher flags) into a calibrated logit. Platt scaling <code>P = 1 / (1 + exp(-(A*logit + B)))</code> ensures outputs represent empirical probabilities. Crucially, the model is fully explainable: multiplying feature value by its learned coefficient immediately isolates the primary threat signals (e.g., <code>[BG-CODE-006] Worm propagation: +5.0 logit</code>).
+      </div>
+      <div class="keywords">
+        Keywords: <span>Platt scaling</span> <span>logistic regression</span> <span>calibrated probabilities</span> <span>feature attribution</span>
+      </div>
+    </div>
+
+    <!-- Q6 -->
+    <div class="q-card">
+      <div class="q-header">
+        <span class="q-number">Q6.</span>
+        <span class="q-title">How did you prevent data leakage during dataset partitioning?</span>
+        <span class="q-tag">Evaluation Rigor</span>
+      </div>
+      <div class="talking-points">
+        <strong>Direct Answer to Give:</strong>
+        "Attackers often publish dozens of automated clones. A standard random split would place clones in both train and test, producing falsely inflated recall. We use cluster-aware group splits so entire malware families stay strictly on one side."
+      </div>
+      <div class="deep-dive">
+        <strong>Technical Elaboration:</strong>
+        We assign near-duplicate packages to cluster IDs (based on payload signatures, domains, and MinHash shingles). When splitting, we group by cluster ID so that no cluster is ever split across training and validation sets. Additionally, we use a temporal holdout (training on earlier months, testing on subsequent months) to test resilience against evolving attacker techniques.
+      </div>
+      <div class="keywords">
+        Keywords: <span>cluster-aware split</span> <span>near-duplicate leakage</span> <span>temporal holdout</span> <span>MinHash</span>
+      </div>
+    </div>
+
+    <!-- Q7 -->
+    <div class="q-card">
+      <div class="q-header">
+        <span class="q-number">Q7.</span>
+        <span class="q-title">Why do you report Wilson score confidence intervals rather than a single ROC-AUC score?</span>
+        <span class="q-tag">Statistical Rigor</span>
+      </div>
+      <div class="talking-points">
+        <strong>Direct Answer to Give:</strong>
+        "Developers experience alerts per week, not AUC. A single recall point is misleading with small sample sizes; Wilson score confidence intervals provide the exact statistical margin of error for our TPR and FPR."
+      </div>
+      <div class="deep-dive">
+        <strong>Technical Elaboration:</strong>
+        ROC-AUC evaluates across all decision thresholds, including operating points with unacceptable 20% false-alarm rates. In production, we operate at a single fixed FPR budget. Using Wilson score confidence intervals guarantees that if we observe 0 false alarms on 20 samples, our 95% upper bound on FPR is realistically bounded by the Rule of Three (~3/N) rather than claiming a false 0.00% certainty.
+      </div>
+      <div class="keywords">
+        Keywords: <span>Wilson score interval</span> <span>Rule of Three</span> <span>ROC-AUC inadequacy</span> <span>sample bounds</span>
+      </div>
+    </div>
+  </div>
+
+  <!-- SECTION 3 -->
+  <div class="category-section">
+    <div class="category-title">Part 3: Systems Safety, Invariants & Security Boundaries</div>
+
+    <!-- Q8 -->
+    <div class="q-card">
+      <div class="q-header">
+        <span class="q-number">Q8.</span>
+        <span class="q-title">How does Bumpguard safely extract and analyze hostile archives?</span>
+        <span class="q-tag">Application Security</span>
+      </div>
+      <div class="talking-points">
+        <strong>Direct Answer to Give:</strong>
+        "We enforce a strict zero-execution invariant: we never run npm, node, or package scripts. All archives are extracted in-memory with decompression caps and strict path traversal sanitization rejecting '../' and drive letters."
+      </div>
+      <div class="deep-dive">
+        <strong>Technical Elaboration:</strong>
+        Malicious archives often attempt Zip-Slip or Tar-Slip attacks (e.g. <code>../../etc/cron.d/evil</code>). Our <code>safe_path()</code> sanitizer strips path components, verifies that all entries resolve to standard relative names, and drops traversal patterns, absolute paths, and Windows device names (CON, NUL). Decompression bombs are mitigated by hard limits: 50MB compressed, 200MB uncompressed, 10,000 files, and 100x max expansion ratio.
+      </div>
+      <div class="keywords">
+        Keywords: <span>zero execution</span> <span>in-memory parsing</span> <span>safe_path</span> <span>zip-slip prevention</span>
+      </div>
+    </div>
+
+    <!-- Q9 -->
+    <div class="q-card">
+      <div class="q-header">
+        <span class="q-number">Q9.</span>
+        <span class="q-title">How is the Composite GitHub Action secured against supply-chain attacks?</span>
+        <span class="q-tag">DevSecOps / CI</span>
+      </div>
+      <div class="talking-points">
+        <strong>Direct Answer to Give:</strong>
+        "The Action operates under least privilege with read-only permissions by default, passes git SHAs via environment variables rather than shell interpolation, and avoids pull_request_target to prevent untrusted code execution."
+      </div>
+      <div class="deep-dive">
+        <strong>Technical Elaboration:</strong>
+        Inlined shell parameters (e.g. <code>${{ inputs.base }}</code>) allow command injection if branch names contain shell metacharacters. Bumpguard passes inputs strictly via environment variables (<code>BASE: ${{ inputs.base }}</code>). It uses standard <code>pull_request</code> triggers which do not possess write tokens on public forks, falling back to GitHub step summaries if PR comment writing is blocked.
+      </div>
+      <div class="keywords">
+        Keywords: <span>least privilege</span> <span>environment variables</span> <span>no pull_request_target</span> <span>injection prevention</span>
+      </div>
+    </div>
+
+    <!-- Q10 -->
+    <div class="q-card">
+      <div class="q-header">
+        <span class="q-number">Q10.</span>
+        <span class="q-title">What are the fundamental limits of Bumpguard, and how could an attacker evade it?</span>
+        <span class="q-tag">Honest Engineering</span>
+      </div>
+      <div class="talking-points">
+        <strong>Direct Answer to Give:</strong>
+        "Bumpguard is static analysis, not a dynamic sandbox. It will not detect novel heavily-obfuscated multi-stage payloads, logic behind remote feature flags, or payloads split across minor releases. Documenting these limits is engineering honesty, not a flaw."
+      </div>
+      <div class="deep-dive">
+        <strong>Technical Elaboration:</strong>
+        If an attacker splits a payload across three consecutive versions or delays network requests via encrypted dynamic eval (e.g., fetching bytecode from pastebin), static AST inspection without runtime sandboxing will miss it. Static tools are designed to filter 95% of opportunistic automated worms and supply-chain hijackings cheaply in CI in under 2 seconds, serving as signals for review rather than final verdicts.
+      </div>
+      <div class="keywords">
+        Keywords: <span>static limitations</span> <span>multi-stage evasion</span> <span>signals not verdicts</span> <span>defense in depth</span>
+      </div>
+    </div>
+  </div>
+
+  <!-- SECTION 4 -->
+  <div class="category-section">
+    <div class="category-title">Part 4: Architectural Trade-Offs & Systems Scale</div>
+
+    <!-- Q11 -->
+    <div class="q-card">
+      <div class="q-header">
+        <span class="q-number">Q11.</span>
+        <span class="q-title">Why build the reference engine in Python first, and how does it relate to Rust?</span>
+        <span class="q-tag">Systems Strategy</span>
+      </div>
+      <div class="talking-points">
+        <strong>Direct Answer to Give:</strong>
+        "In production systems, authoring a verified reference engine in Python first is a standard engineering strategy. It allowed me to rapidly validate AST parsing, mathematical calibration, and edge cases, creating a working test oracle before porting hot paths to native Rust."
+      </div>
+      <div class="deep-dive">
+        <strong>Technical Elaboration:</strong>
+        When system compiler installers encountered environment permission constraints, adhering to the blueprint's explicit Python reference fallback guaranteed delivery of an end-to-end working MVP with 35 passing tests. The Python implementation now serves as our ground-truth oracle for differential testing when native Rust crates (<code>bg-core</code>, <code>bg-extract</code>) are linked.
+      </div>
+      <div class="keywords">
+        Keywords: <span>correctness oracle</span> <span>pragmatic delivery</span> <span>differential testing</span> <span>systems porting</span>
+      </div>
+    </div>
+
+    <!-- Q12 -->
+    <div class="q-card">
+      <div class="q-header">
+        <span class="q-number">Q12.</span>
+        <span class="q-title">How would Bumpguard scale to 100,000 package updates per day?</span>
+        <span class="q-tag">Scalability & Cloud</span>
+      </div>
+      <div class="talking-points">
+        <strong>Direct Answer to Give:</strong>
+        "At high throughput, scanning moves from on-demand CI runs to an asynchronous ingestion pipeline with an SHA-keyed artifact cache, a distributed worker queue, and incremental parsing."
+      </div>
+      <div class="deep-dive">
+        <strong>Technical Elaboration:</strong>
+        1. <strong>Content-Addressed Cache</strong>: Release archives and extracted fact sets are cached by integrity hash (SHA-512) in Redis / S3 so each release is parsed only once across all users.
+        2. <strong>Distributed Queue</strong>: Registry webhooks publish new versions to a Kafka/SQS topic consumed by containerized Bumpguard workers.
+        3. <strong>Incremental Diffing</strong>: Updates only diff new facts against pre-computed cached predecessor sets in memory in less than 50ms.
+      </div>
+      <div class="keywords">
+        Keywords: <span>content-addressed cache</span> <span>SQS/Kafka</span> <span>pre-computed fact sets</span> <span>horizontal scaling</span>
+      </div>
+    </div>
+  </div>
+
+</body>
+</html>
