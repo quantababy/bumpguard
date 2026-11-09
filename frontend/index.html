@@ -1,0 +1,107 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>bumpguard — Dependency Update Risk Scanner</title>
+  <link rel="stylesheet" href="styles.css">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link href="https://fonts.googleapis.com/css2?family=JetBrains+Mono:wght@400;500;700&family=Plus+Jakarta+Sans:wght@400;600;700;800&display=swap" rel="stylesheet">
+</head>
+<body>
+  <div class="app-container">
+    <header class="app-header">
+      <div class="brand">
+        <div class="logo-badge">BG</div>
+        <div>
+          <h1>bumpguard <span class="tag">v0.1.0 MVP</span></h1>
+          <p class="subtitle">Dependency Update Risk Scanner & Supply-Chain Shield</p>
+        </div>
+      </div>
+      <div class="status-indicator" id="backend-status">
+        <span class="status-dot"></span> <span id="status-text">Backend Connected</span>
+      </div>
+    </header>
+
+    <main class="main-content">
+      <!-- Input Panel -->
+      <section class="card input-section">
+        <div class="section-header">
+          <h2>Lockfile Diff Scanner</h2>
+          <div class="action-buttons">
+            <button class="btn btn-secondary" id="btn-load-demo">Load Demo Scenario</button>
+            <button class="btn btn-primary" id="btn-run-scan">Run Security Scan</button>
+          </div>
+        </div>
+
+        <div class="diff-inputs">
+          <div class="input-col">
+            <label for="base-lockfile">Base Lockfile (e.g. <code>origin/main</code>)</label>
+            <textarea id="base-lockfile" placeholder="Paste base package-lock.json here..."></textarea>
+          </div>
+          <div class="input-col">
+            <label for="head-lockfile">Head Lockfile (e.g. <code>PR branch / HEAD</code>)</label>
+            <textarea id="head-lockfile" placeholder="Paste head package-lock.json here..."></textarea>
+          </div>
+        </div>
+      </section>
+
+      <!-- KPI Summary Cards -->
+      <section class="kpi-grid" id="kpi-section" style="display: none;">
+        <div class="kpi-card">
+          <span class="kpi-title">Updates Scanned</span>
+          <span class="kpi-value" id="kpi-total">0</span>
+        </div>
+        <div class="kpi-card alert-card">
+          <span class="kpi-title">Needs Review</span>
+          <span class="kpi-value" id="kpi-flagged">0</span>
+        </div>
+        <div class="kpi-card clean-card">
+          <span class="kpi-title">Clean Updates</span>
+          <span class="kpi-value" id="kpi-clean">0</span>
+        </div>
+        <div class="kpi-card">
+          <span class="kpi-title">Removed Packages</span>
+          <span class="kpi-value" id="kpi-removed">0</span>
+        </div>
+      </section>
+
+      <!-- Results Table -->
+      <section class="card results-section" id="results-section" style="display: none;">
+        <div class="section-header">
+          <h2>Scan Findings & Risk Signals</h2>
+          <div class="filter-controls">
+            <button class="filter-btn active" data-filter="all">All Updates</button>
+            <button class="filter-btn" data-filter="review">Needs Review</button>
+            <button class="filter-btn" data-filter="clean">Clean</button>
+            <button class="btn btn-secondary" id="btn-copy-markdown">Copy PR Markdown</button>
+          </div>
+        </div>
+
+        <div class="table-container">
+          <table class="results-table">
+            <thead>
+              <tr>
+                <th>Package</th>
+                <th>Change</th>
+                <th>Risk Level</th>
+                <th>Signals & Reasons</th>
+                <th>Actions</th>
+              </tr>
+            </thead>
+            <tbody id="results-body">
+              <!-- Rendered dynamically -->
+            </tbody>
+          </table>
+        </div>
+      </section>
+    </main>
+
+    <footer class="app-footer">
+      <p>bumpguard: Static analysis only. Package code is never executed. Risk signals are for review, not verdicts.</p>
+    </footer>
+  </div>
+
+  <script src="app.js"></script>
+</body>
+</html>

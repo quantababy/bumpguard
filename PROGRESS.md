@@ -1,7 +1,7 @@
 # PROGRESS.md — Bumpguard Progress Tracker
 
 ## Status Summary
-- **Current Phase**: Batch 5 Complete — CLI, Markdown / JSON Reporters, and Local API Server
+- **Current Phase**: Batch 6 Complete — Frontend Web Visualizer & Integration
 - **Overall Status**: In Progress (MVP Phase)
 
 ---
@@ -52,11 +52,19 @@
 - [x] Implemented CLI entry point in `bumpguard.cli` with `diff` and `serve` commands
 - [x] Authored and verified unit test suites (`tests/test_report.py`, `tests/test_cli.py`) with 22 total passing tests
 
+### Batch 6: Frontend Web Visualizer & Integration
+- [x] Built modern security dashboard in `frontend/` (`index.html`, `styles.css`, `app.js`)
+- [x] Interactive lockfile diff inspector with pre-loaded demo scenario
+- [x] Executive KPI cards (Scanned, Needs Review, Clean, Removed)
+- [x] Filtering, badge coloring, and code evidence drawer for findings
+- [x] Seamless integration: `bumpguard serve` serves the frontend while running `/api/scan` backend
+- [x] Added automated server integration test suite (`tests/test_server.py`) with 25 total passing tests
+
 ---
 
 ## Current Task
-- **Active Task**: Batch 5 complete.
-- **Next Task (Batch 6)**: Frontend Web Dashboard in `frontend/` & Integration with `bumpguard serve`.
+- **Active Task**: Batch 6 complete.
+- **Next Task (Batch 7 — Final Batch)**: Composite GitHub Action (`action/action.yml`), project documentation (`README.md`, `SECURITY.md`), and end-to-end verification.
 
 ---
 
