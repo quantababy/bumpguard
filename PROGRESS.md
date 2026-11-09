@@ -1,7 +1,7 @@
 # PROGRESS.md — Bumpguard Progress Tracker
 
 ## Status Summary
-- **Current Phase**: Batch 3 Complete — Lockfile Parsing, Diff Engine & Registry Client
+- **Current Phase**: Batch 4 Complete — Code Fact Extraction, Diff Engine & Risk Scorer
 - **Overall Status**: In Progress (MVP Phase)
 
 ---
@@ -31,11 +31,25 @@
   - `BG-POL-003` (missing integrity)
 - [x] Authored and verified unit test suites (`tests/test_lockfile.py`, `tests/test_registry.py`) with 11 total passing tests
 
+### Batch 4: Code Fact Extraction, Diff Engine & Risk Scorer
+- [x] Implemented `FactExtractor` pattern matching for JavaScript/Node.js facts:
+  - `BG-CODE-001` (network access)
+  - `BG-CODE-002` (process execution)
+  - `BG-CODE-003` (dynamic eval)
+  - `BG-CODE-005` (sensitive files and env token reads)
+  - `BG-CODE-006` (self-propagating worm publication)
+- [x] Implemented `compare_package_archives` diff engine:
+  - Skips identical files by SHA256
+  - Detects `BG-EXEC-001` (lifecycle scripts) and `BG-EXEC-002` (`binding.gyp`)
+  - Computes `new_facts - old_facts` keyed by `(kind, api, context)`
+- [x] Implemented v0 heuristic scorer in `bumpguard.score.scorer` with rule weights and critical overrides
+- [x] Authored and verified unit test suites (`tests/test_analyzer.py`, `tests/test_scorer.py`) with 17 total passing tests
+
 ---
 
 ## Current Task
-- **Active Task**: Batch 3 complete.
-- **Next Task (Batch 4)**: Code Fact Extraction (AST/Pattern Analyzer) & Fact-Set Difference Scorer.
+- **Active Task**: Batch 4 complete.
+- **Next Task (Batch 5)**: CLI, Markdown / JSON Reporters, and Local API Server.
 
 ---
 
