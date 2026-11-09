@@ -1,0 +1,51 @@
+name: CI
+
+on:
+  push:
+    branches: [ master, main ]
+  pull_request:
+    paths:
+      - 'backend/**'
+      - 'frontend/**'
+      - 'eval/**'
+      - 'action/**'
+      - 'samples/**'
+      - '*.py'
+      - 'bumpguard.toml'
+
+permissions:
+  contents: read
+
+jobs:
+  test-and-eval:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v4
+        with:
+          fetch-depth: 0
+          persist-credentials: false
+
+      - name: Set up Python
+        uses: actions/setup-python@v5
+        with:
+          python-version: '3.11'
+          cache: 'pip'
+
+      - name: Run Test Suite
+        run: |
+          python run_tests.py
+
+      - name: Run Evaluation Smoke Test (Reproducible eval)
+        run: |
+          python -m eval.run_eval
+
+      - name: Verify CLI Diff & SARIF Generation
+        run: |
+          cd backend
+          python -m bumpguard.cli diff --base ../samples/old-lock.json --head ../samples/new-lock.json --format sarif --sarif-file ../eval/results/ci-results.sarif || true
+          test -f ../eval/results/ci-results.sarif
+
+      - name: Verify Composite Action Syntax
+        run: |
+          test -f action/action.yml

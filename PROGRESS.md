@@ -1,34 +1,41 @@
 # PROGRESS.md — Bumpguard Progress Tracker
 
 ## Status Summary
-- **Current Phase**: v1 Scope Complete & Verified (Batches 8–10 Finished)
-- **Overall Status**: Complete & Passing (31/31 automated tests pass)
+- **Current Phase**: v1.5 Milestone Complete — Evaluation Harness, CI/CD & ADR Portfolio
+- **Overall Status**: Complete & Passing (35/35 automated tests pass)
 
 ---
 
-## v1 Milestone Checklist
+## Roadmap Milestones Completed
 
-### Batch 8: Configuration & Expiring Ignore Rules (`bumpguard.toml`)
-- [x] Implemented `bumpguard.toml` parser and policy controls in `bumpguard.config`
-- [x] Implemented expiring ignore rules (`[[ignore]] package, rule, expires, reason`)
-- [x] Verified expired ignore rules force security review and are not silently skipped
-- [x] Authored unit tests in `tests/test_config.py`
+### Option 1: v1.5 Evaluation Harness & Calibrated ML Model
+- [x] Implemented manifest generator in `eval/manifest.py` with strict track separation:
+  - Track 1: Diff Track (`compromised_lib` vs `benign`)
+  - Track 2: New-Package Track (`malicious_intent` vs `benign`)
+- [x] Implemented cluster-aware group splitting (`eval/splits.py`) preventing near-duplicate leakage
+- [x] Implemented temporal time-based holdout splitting (`eval/splits.py`)
+- [x] Implemented regularized logistic regression and Platt calibration (`eval/model.py`)
+- [x] Exported calibrated parameters to `model_weights.json` and integrated with `bumpguard.score.scorer`
+- [x] Implemented Wilson score 95% confidence intervals and PPV sensitivity analysis (`eval/metrics.py`)
+- [x] Automated evaluation driver in `eval/run_eval.py` regenerating `eval/results/results.json`
+- [x] Authored and verified unit tests in `tests/test_eval.py`
 
-### Batch 9: SARIF v2.1.0 Output Generation (`results.sarif`)
-- [x] Implemented standard SARIF v2.1.0 generator in `bumpguard.report.sarif`
-- [x] Mapped rule definitions, locations, and severities (`error`, `warning`, `note`) for GitHub Code Scanning
-- [x] Added `--format sarif` and `--sarif-file` CLI flags
-- [x] Authored unit tests in `tests/test_sarif.py`
+### Option 2: Live CI/CD Automation
+- [x] Authored `.github/workflows/ci.yml` with least-privilege permissions
+- [x] Integrated automated test execution (`python run_tests.py`)
+- [x] Integrated evaluation smoke test execution (`python -m eval.run_eval`)
+- [x] Integrated CLI diff verification and SARIF output generation checks
 
-### Batch 10: PyPI Ecosystem Support
-- [x] Implemented safe in-memory `.whl` (ZIP) extractor with path traversal protections in `bumpguard.extract.wheel_extractor`
-- [x] Implemented Python fact patterns and `.pth` persistence hook detection (`BG-EXEC-003`) in `bumpguard.analyze.python_analyzer`
-- [x] Implemented `requirements.txt` dependency parser in `bumpguard.lockfile.pypi_parser`
-- [x] Authored unit tests in `tests/test_pypi.py`
+### Option 3: Architectural Decision Records & Interview Guide
+- [x] Authored ADR `001-diff-first-architecture.md`
+- [x] Authored ADR `002-calibrated-scoring-and-alert-budget.md`
+- [x] Authored ADR `003-safe-in-memory-extraction.md`
+- [x] Created comprehensive rehearsal interview guide in `docs/INTERVIEW_GUIDE.md`
+- [x] Embedded empirical evaluation tables with Wilson confidence intervals in `README.md`
 
 ---
 
-## Batch History (MVP Phase)
+## Batch History (v1 & MVP Phases)
 
 ### Batch 1: Project Setup & Control Documents
 - [x] Initialized project root at `bumpguard/`

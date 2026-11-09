@@ -1,0 +1,31 @@
+{
+  "feature_names": [
+    "fresh_release",
+    "has_binding_gyp",
+    "has_install_script",
+    "has_pth_file",
+    "import_context",
+    "new_credential_read",
+    "new_eval",
+    "new_network_call",
+    "new_process_exec",
+    "publisher_changed",
+    "worm_propagation"
+  ],
+  "weights": {
+    "fresh_release": 0.3714,
+    "has_binding_gyp": 1.894,
+    "has_install_script": 1.1591,
+    "has_pth_file": 2.5036,
+    "import_context": 1.0668,
+    "new_credential_read": 2.2542,
+    "new_eval": 0.644,
+    "new_network_call": 1.9039,
+    "new_process_exec": 1.7656,
+    "publisher_changed": 1.2031,
+    "worm_propagation": 3.2202
+  },
+  "intercept": -3.2786,
+  "platt_a": 1.05,
+  "platt_b": -0.1
+}

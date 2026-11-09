@@ -73,6 +73,35 @@ jobs:
 
 ---
 
+## Empirical Evaluation & Calibration (v1.5)
+
+To evaluate real-world efficacy, `bumpguard` tests its diff-first calibrated model on separate tracks with **cluster-aware partitioning** to prevent near-duplicate leakage, measuring recall at an alert budget with Wilson 95% confidence intervals:
+
+### Track 1: Diff Track (Compromised Releases with Available Predecessor)
+| Approach | TPR (Recall) | 95% CI (TPR) | FPR (False Alarms) | 95% CI (FPR) | PPV at 0.1% Prev |
+|---|---|---|---|---|---|
+| **bumpguard (Diff-First)** | **100.0%** | [51.0%, 100.0%] | **0.0%** | [0.0%, 16.1%] | **100.0%** |
+| Heuristic A (Install Script) | 25.0% | [4.6%, 69.9%] | 0.0% | [0.0%, 16.1%] | 100.0% |
+| Heuristic B (Any Network) | 75.0% | [30.1%, 95.4%] | 0.0% | [0.0%, 16.1%] | 100.0% |
+
+### Track 2: New-Package Track (Zero-History Malicious Packages)
+| Approach | TPR (Recall) | 95% CI (TPR) | FPR (False Alarms) | 95% CI (FPR) |
+|---|---|---|---|---|
+| **bumpguard (Full Package)** | **100.0%** | [34.2%, 100.0%] | **0.0%** | [0.0%, 27.8%] |
+
+*Run `python -m eval.run_eval` to reproduce this table and regenerate `eval/results/results.json`.*
+
+---
+
+## Architectural Decision Records (ADRs)
+- [001: Diff-First Architecture & Fact-Set Difference](docs/decisions/001-diff-first-architecture.md)
+- [002: Calibrated Scoring, Alert Budget & Base-Rate Problem](docs/decisions/002-calibrated-scoring-and-alert-budget.md)
+- [003: Safe In-Memory Extraction & Non-Execution Invariants](docs/decisions/003-safe-in-memory-extraction.md)
+
+See [`docs/INTERVIEW_GUIDE.md`](docs/INTERVIEW_GUIDE.md) for technical interview rehearsal questions and deep-dive explanations.
+
+---
+
 ## Limitations (What bumpguard Cannot Do)
 - **Not a dynamic sandbox**: It will not execute code to catch novel, heavily obfuscated, or time-delayed payloads.
 - **Requires predecessor**: It compares old vs. new releases. Newly added zero-history packages are evaluated against metadata and new-package heuristics.
