@@ -10,12 +10,20 @@ from pathlib import Path
 from typing import List, Optional
 
 from bumpguard.core.types import Ecosystem, PackageRef, Severity
+from bumpguard.engine import scan_package_update
+from bumpguard.extract.safe_extractor import SafeExtractor
 from bumpguard.lockfile.diff import diff_lockfiles
 from bumpguard.lockfile.parser import parse_package_lock
 from bumpguard.registry.client import NpmRegistryClient
 from bumpguard.report.reporter import format_json_report, format_markdown_report
 from bumpguard.score.scorer import ScoredPackage, calculate_package_risk
 from bumpguard.server import run_server
+
+
+if hasattr(sys.stdout, "reconfigure"):
+    sys.stdout.reconfigure(encoding="utf-8", errors="replace")
+if hasattr(sys.stderr, "reconfigure"):
+    sys.stderr.reconfigure(encoding="utf-8", errors="replace")
 
 
 def read_lockfile_from_ref_or_file(ref_or_path: str, filename: str = "package-lock.json") -> str:
@@ -59,17 +67,11 @@ def cmd_diff(args: argparse.Namespace) -> int:
 
     changed, removed = diff_lockfiles(base_entries, head_entries, ignore_dev=args.ignore_dev)
     client = NpmRegistryClient()
+    extractor = SafeExtractor()
 
     scored_packages: List[ScoredPackage] = []
     for pkg in changed:
-        findings = []
-        # Query registry for metadata signals
-        packument = client.fetch_packument(pkg.name)
-        if packument:
-            meta = client.parse_metadata(packument)
-            findings.extend(client.evaluate_metadata_rules(pkg, meta))
-
-        scored = calculate_package_risk(pkg, findings)
+        scored = scan_package_update(pkg, client=client, extractor=extractor)
         scored_packages.append(scored)
 
     # Format output

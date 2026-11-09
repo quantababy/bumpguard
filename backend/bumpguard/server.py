@@ -11,10 +11,12 @@ from pathlib import Path
 from typing import Optional
 
 from bumpguard.core.types import Ecosystem, PackageRef, Severity
+from bumpguard.engine import scan_package_update
+from bumpguard.extract.safe_extractor import SafeExtractor
 from bumpguard.lockfile.diff import diff_lockfiles
 from bumpguard.lockfile.parser import parse_package_lock
 from bumpguard.registry.client import NpmRegistryClient
-from bumpguard.score.scorer import ScoredPackage, calculate_package_risk
+from bumpguard.score.scorer import ScoredPackage
 
 
 class BumpguardRequestHandler(BaseHTTPRequestHandler):
@@ -81,17 +83,11 @@ class BumpguardRequestHandler(BaseHTTPRequestHandler):
                 changed, removed = diff_lockfiles(base_entries, head_entries)
 
                 client = NpmRegistryClient()
+                extractor = SafeExtractor()
                 scored_packages: list[ScoredPackage] = []
 
                 for pkg in changed:
-                    # Registry signals
-                    packument = client.fetch_packument(pkg.name)
-                    findings = []
-                    if packument:
-                        meta = client.parse_metadata(packument)
-                        findings.extend(client.evaluate_metadata_rules(pkg, meta))
-
-                    scored = calculate_package_risk(pkg, findings)
+                    scored = scan_package_update(pkg, client=client, extractor=extractor)
                     scored_packages.append(scored)
 
                 flagged = [p for p in scored_packages if p.needs_review]

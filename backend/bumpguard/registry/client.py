@@ -10,6 +10,7 @@ from dataclasses import dataclass, field
 from typing import Any, Dict, List, Optional
 
 from bumpguard.core.types import Finding, PackageRef, Severity
+from bumpguard.fixtures import SYNTHETIC_ARCHIVES, SYNTHETIC_METADATA
 
 
 @dataclass
@@ -39,9 +40,15 @@ class NpmRegistryClient:
         self._cache: Dict[str, Dict[str, Any]] = {}
 
     def fetch_packument(self, package_name: str) -> Optional[Dict[str, Any]]:
-        """Fetch raw packument JSON from registry or return cached."""
+        """Fetch raw packument JSON from registry or return cached/synthetic fixture."""
         if package_name in self._cache:
             return self._cache[package_name]
+
+        # Check synthetic fixtures first for demo / canary testing
+        if package_name in SYNTHETIC_METADATA:
+            synth = SYNTHETIC_METADATA[package_name]
+            self._cache[package_name] = synth
+            return synth
 
         url = f"{self.registry_base}/{package_name}"
         req = urllib.request.Request(
@@ -56,6 +63,29 @@ class NpmRegistryClient:
         except (urllib.error.URLError, urllib.error.HTTPError, TimeoutError, json.JSONDecodeError):
             return None
 
+    def fetch_tarball(
+        self,
+        package_name: str,
+        version: str,
+        tarball_url: Optional[str] = None,
+    ) -> Optional[bytes]:
+        """Fetch package release tarball bytes from synthetic cache or live registry."""
+        # 1. Check synthetic in-memory fixtures
+        if package_name in SYNTHETIC_ARCHIVES and version in SYNTHETIC_ARCHIVES[package_name]:
+            return SYNTHETIC_ARCHIVES[package_name][version]
+
+        # 2. Live network fetch if URL provided or reconstructable
+        url = tarball_url or f"{self.registry_base}/{package_name}/-/{package_name}-{version}.tgz"
+        req = urllib.request.Request(
+            url,
+            headers={"User-Agent": "bumpguard/0.1.0 (Dependency Update Risk Scanner)"},
+        )
+        try:
+            with urllib.request.urlopen(req, timeout=self.timeout) as resp:
+                return resp.read()
+        except Exception:
+            return None
+
     def parse_metadata(self, packument: Dict[str, Any]) -> PackageMetadata:
         """Parse raw packument into structured PackageMetadata."""
         name = packument.get("name", "")
@@ -66,15 +96,21 @@ class NpmRegistryClient:
 
         versions: Dict[str, VersionMetadata] = {}
         for ver, info in versions_raw.items():
-            dist = info.get("dist", {})
-            tarball = dist.get("tarball")
-            integrity = dist.get("integrity")
+            if isinstance(info, VersionMetadata):
+                versions[ver] = info
+                continue
 
-            npm_user = info.get("_npmUser", {})
-            publisher = npm_user.get("name") if isinstance(npm_user, dict) else None
+            dist = info.get("dist", {}) if isinstance(info, dict) else {}
+            tarball = dist.get("tarball") or (info.get("tarball_url") if isinstance(info, dict) else None)
+            integrity = dist.get("integrity") or (info.get("integrity") if isinstance(info, dict) else None)
 
-            published_at = None
-            if ver in time_raw:
+            npm_user = info.get("_npmUser", {}) if isinstance(info, dict) else {}
+            publisher = None
+            if isinstance(info, dict):
+                publisher = info.get("publisher") or (npm_user.get("name") if isinstance(npm_user, dict) else None)
+
+            published_at = info.get("published_at") if isinstance(info, dict) else None
+            if not published_at and ver in time_raw:
                 try:
                     # npm timestamps are ISO 8601 strings
                     ts_str = time_raw[ver].replace("Z", "+00:00")
@@ -82,12 +118,12 @@ class NpmRegistryClient:
                 except Exception:
                     published_at = None
 
-            scripts = info.get("scripts", {})
+            scripts = info.get("scripts", {}) if isinstance(info, dict) else {}
             has_install_script = any(
                 hook in scripts
                 for hook in ["preinstall", "install", "postinstall", "prepare"]
             )
-            has_binding_gyp = bool(info.get("gypfile"))
+            has_binding_gyp = bool(info.get("gypfile")) if isinstance(info, dict) else False
 
             versions[ver] = VersionMetadata(
                 version=ver,
